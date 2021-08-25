@@ -7,10 +7,12 @@ public class Move : MonoBehaviour
 {
     NavMeshAgent agent;
     public float speed = 3.0f;
+    private Animator animator;
 
     private void Awake()
     {
         agent = this.gameObject.GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Start is called before the first frame update
@@ -24,22 +26,27 @@ public class Move : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W)) // 菊
         {
+            animator.SetBool("isWalk", true);
             this.transform.Translate(new Vector3(0, 0, 1) * Time.deltaTime * speed);
         }
-
-        if (Input.GetKey(KeyCode.A)) // 哭率
+        else if (Input.GetKey(KeyCode.A)) // 哭率
         {
+            animator.SetBool("isWalk", true);
             this.transform.Translate(new Vector3(-1, 0, 0) * Time.deltaTime * speed);
         }
-        
-        if (Input.GetKey(KeyCode.S)) // 第
+        else if (Input.GetKey(KeyCode.S)) // 第
         {
+            animator.SetBool("isWalk", true);
             this.transform.Translate(new Vector3(0, 0, -1) * Time.deltaTime * speed);
         }
-        
-        if (Input.GetKey(KeyCode.D)) // 坷弗率
+        else if (Input.GetKey(KeyCode.D)) // 坷弗率
         {
+            animator.SetBool("isWalk", true);
             this.transform.Translate(new Vector3(1, 0, 0) * Time.deltaTime * speed);
+        }
+        else 
+        {
+            animator.SetBool("isWalk", false);
         }
     }
 }
