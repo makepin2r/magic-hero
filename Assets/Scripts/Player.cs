@@ -14,32 +14,41 @@ public class Player : MonoBehaviour
     
     NavMeshAgent agent;
     private Animator animator;
+    Rigidbody rigid;
 
     private void Awake()
     {
         agent = this.gameObject.GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        rigid = GetComponent<Rigidbody>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
+    void GetInput()
     {
         hAxis = Input.GetAxisRaw("Horizontal");
         vAxis = Input.GetAxisRaw("Vertical");
-        // edit -> project settings -> input manager 에서 관리하고 있는 값
+    }
 
+    void Move()
+    {
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
 
         transform.position += moveVec * speed * Time.deltaTime;
 
         animator.SetBool("isWalk", moveVec != Vector3.zero);
-
-        transform.LookAt(transform.position + moveVec); // 나아가는 방향으로 회전
     }
+
+    void Turn()
+    {
+        transform.LookAt(transform.position + moveVec); // 나아가는 방향으로 회전 
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        GetInput();
+        Move();
+        Turn();
+    }
+
 }
